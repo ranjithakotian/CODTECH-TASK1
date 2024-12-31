@@ -1,0 +1,75 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+public class FileHandler {
+
+    public static void main(String[] args) {
+        // File paths for demonstration
+        String filePath = "example.txt";
+
+        // Writing to a file
+        String[] contentToWrite = {
+            "Welcome to File Handling in Java!",
+            "This file demonstrates basic file operations.",
+            "You can read, write, and modify this text file."
+        };
+
+        // Writing to the file
+        writeFile(filePath, contentToWrite);
+
+        // Reading from the file
+        System.out.println("Reading file content:");
+        readFile(filePath);
+
+        // Modifying the file by appending new content
+        String[] contentToAppend = {
+            "File modified successfully!",
+            "New content appended to the file."
+        };
+
+        appendToFile(filePath, contentToAppend);
+
+        // Reading the modified file content
+        System.out.println("\nReading modified file content:");
+        readFile(filePath);
+    }
+
+    // Method to write content to a file
+    public static void writeFile(String filePath, String[] content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : content) {
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("File written successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    // Method to read content from a file
+    public static void readFile(String filePath) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    // Method to append content to an existing file
+    public static void appendToFile(String filePath, String[] content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            for (String line : content) {
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("File modified successfully (content appended).");
+        } catch (IOException e) {
+            System.out.println("Error appending to the file: " + e.getMessage());
+        }
+    }
+}
